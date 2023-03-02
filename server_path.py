@@ -16,7 +16,7 @@ from transformers import pipeline, set_seed
 
 set_seed(42)
 
-model_id = "facebook/opt-iml-max-1.3b"
+model_id = "facebook/opt-iml-max-30b"
 
 pipe = pipeline(
 	model = model_id, 
@@ -68,26 +68,26 @@ ns = Namespace(
 
 ########################################################
 
-parser_opt_iml_max_1b = ns.parser()
-parser_opt_iml_max_1b.add_argument('prompt', type=str, location='json')
-parser_opt_iml_max_1b.add_argument('max_length', type=int, location='json')
+parser_opt_iml_max_30b = ns.parser()
+parser_opt_iml_max_30b.add_argument('prompt', type=str, location='json')
+parser_opt_iml_max_30b.add_argument('max_length', type=int, location='json')
 
-opt_iml_max_1b_api_req = ns.model(
-	'opt_iml_max_1b', 
+opt_iml_max_30b_api_req = ns.model(
+	'opt_iml_max_30b', 
 	{
 	'prompt': fields.String(example = "My name is Jimmy"),
 	'max_length': fields.Integer(example = 32),
 	})
 
-@ns.route('/opt_iml_max_1b')
-class opt_iml_max_1b_api(Resource):
+@ns.route('/opt_iml_max_30b')
+class opt_iml_max_30b_api(Resource):
 	def __init__(self, *args, **kwargs):
-		super(opt_iml_max_1b_api, self).__init__(*args, **kwargs)
-	@ns.expect(opt_iml_max_1b_api_req)
+		super(opt_iml_max_30b_api, self).__init__(*args, **kwargs)
+	@ns.expect(opt_iml_max_30b_api_req)
 	def post(self):		
 		start = time.time()
 		try:			
-			args = parser_opt_iml_max_1b.parse_args()
+			args = parser_opt_iml_max_30b.parse_args()
 
 			output = {}
 
