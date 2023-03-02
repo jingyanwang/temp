@@ -7,7 +7,7 @@ docker run -it \
 -p 0.0.0.0:6974:6974 \
 jingyanwang1/llm_service_bloomz_7b1:1.0.1
 
-http://157.230.50.43:6974
+157.230.50.43:6974
 
 
 rm Dockerfile

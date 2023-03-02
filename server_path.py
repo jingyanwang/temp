@@ -11,7 +11,6 @@ from flask import *
 print('loading model')
 
 
-'''
 from transformers import pipeline, set_seed
 
 set_seed(42)
@@ -21,8 +20,6 @@ model_id = "bigscience/bloomz-7b1"
 pipe = pipeline(
 	model = model_id, 
 	)
-
-'''
 
 ###
 
