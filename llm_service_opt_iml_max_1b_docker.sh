@@ -40,7 +40,7 @@ WORKDIR /
 
 ####
 
-RUN echo "1s51dg5s1g5s15dg"
+RUN echo "dg1s2dg15sg54"
 
 RUN git clone https://github.com/jingyanwang/temp.git
 
@@ -49,5 +49,3 @@ WORKDIR /temp
 CMD python3 app_path.py
 
 ##########Dockerfile###########
-
-

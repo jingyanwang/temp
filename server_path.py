@@ -10,11 +10,11 @@ from flask import *
 
 print('loading model')
 
-set_seed(42)
-
 ###
 
-from transformers import pipeline
+from transformers import pipeline, set_seed
+
+set_seed(42)
 
 model_id = "facebook/opt-iml-max-1.3b"
 
