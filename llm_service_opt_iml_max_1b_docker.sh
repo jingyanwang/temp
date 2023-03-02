@@ -8,7 +8,7 @@ docker run -it \
 jingyanwang1/llm_service_opt_iml_max_1b:1.0.1
 
 
-http://34.66.57.96:3979
+157.230.50.43:3979
 
 http://34.66.57.96:3092
 
@@ -40,7 +40,7 @@ WORKDIR /
 
 ####
 
-RUN echo "dg1s2dg15sg54"
+RUN echo "1s1g2sgd12g"
 
 RUN git clone https://github.com/jingyanwang/temp.git
 

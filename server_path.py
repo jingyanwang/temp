@@ -75,8 +75,8 @@ parser_opt_iml_max_1b.add_argument('max_length', type=int, location='json')
 opt_iml_max_1b_api_req = ns.model(
 	'opt_iml_max_1b', 
 	{
-	'prompt': fields.String(example = "My name is Jimmy. Question: what is my name?"),
-	'max_length': fields.Integer(example = 128),
+	'prompt': fields.String(example = "My name is Jimmy"),
+	'max_length': fields.Integer(example = 32),
 	})
 
 @ns.route('/opt_iml_max_1b')
