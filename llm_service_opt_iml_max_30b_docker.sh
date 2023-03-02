@@ -1,14 +1,14 @@
 docker build \
 -m 100G \
 --memory-swap -1 \
--t jingyanwang1/llm_service_opt_iml_max_1b:1.0.1 .
+-t jingyanwang1/llm_service_opt_iml_max_30b:1.0.1 .
 
 docker run -it \
--p 0.0.0.0:3979:3979 \
-jingyanwang1/llm_service_opt_iml_max_1b:1.0.1
+-p 0.0.0.0:3177:3177 \
+jingyanwang1/llm_service_opt_iml_max_30b:1.0.1
 
 
-157.230.50.43:3979
+157.230.50.43:3177
 
 http://34.66.57.96:3092
 
@@ -40,7 +40,7 @@ WORKDIR /
 
 ####
 
-RUN echo "1s1gsd1g5sd1g5s"
+RUN echo "1d2g12sg1sdg5"
 
 RUN git clone https://github.com/jingyanwang/temp.git
 
