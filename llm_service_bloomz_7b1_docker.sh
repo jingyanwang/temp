@@ -4,10 +4,10 @@ docker build \
 -t jingyanwang1/llm_service_bloomz_7b1:1.0.1 .
 
 docker run -it \
--p 0.0.0.0:3768:3768 \
+-p 0.0.0.0:6974:6974 \
 jingyanwang1/llm_service_bloomz_7b1:1.0.1
 
-http://206.189.198.28:3768
+http://157.230.50.43:6974
 
 
 rm Dockerfile
