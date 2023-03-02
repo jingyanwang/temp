@@ -1,5 +1,5 @@
 docker build \
--m 100G \
+-m 50G \
 --memory-swap -1 \
 -t jingyanwang1/llm_service_bloomz_7b1:1.0.1 .
 
@@ -37,7 +37,7 @@ WORKDIR /
 
 ####
 
-RUN echo "ds5g1s51g5sd"
+RUN echo "sd6g1s5gs5g5s"
 
 RUN git clone https://github.com/jingyanwang/temp.git
 

@@ -34,11 +34,10 @@ def prompt_to_resoonse(
 	)
 	return response[0]['generated_text']
 
+'''
 
 from transformers import pipeline, set_seed
 from transformers import AutoModelForCausalLM, AutoTokenizer
-
-'''
 
 set_seed(42)
 
