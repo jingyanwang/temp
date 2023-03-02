@@ -1,16 +1,13 @@
 docker build \
 -m 100G \
 --memory-swap -1 \
--t jingyanwang1/llm_service_opt_iml_max_30b:1.0.1 .
+-t jingyanwang1/llm_service_bloomz_7b1:1.0.1 .
 
 docker run -it \
--p 0.0.0.0:3177:3177 \
-jingyanwang1/llm_service_opt_iml_max_30b:1.0.1
+-p 0.0.0.0:3768:3768 \
+jingyanwang1/llm_service_bloomz_7b1:1.0.1
 
-
-157.230.50.43:3177
-
-http://34.66.57.96:3092
+http://206.189.198.28:3768
 
 
 rm Dockerfile
@@ -32,20 +29,19 @@ RUN pip3 install transformers==4.26.1
 RUN pip3 install sentencepiece==0.1.97
 RUN pip3 install protobuf==3.20.0
 
-RUN python3 -c 'from transformers import AutoModelForCausalLM;model = AutoModelForCausalLM.from_pretrained("facebook/opt-iml-max-30b")'
+RUN python3 -c 'from transformers import AutoModelForCausalLM;model = AutoModelForCausalLM.from_pretrained("bigscience/bloomz-7b1")'
 
-RUN python3 -c 'from transformers import AutoTokenizer;tokenizer = AutoTokenizer.from_pretrained("facebook/opt-iml-max-30b")'
+RUN python3 -c 'from transformers import AutoTokenizer;tokenizer = AutoTokenizer.from_pretrained("bigscience/bloomz-7b1")'
 
 WORKDIR /
 
 ####
 
-RUN echo "1d2g12sg1sdg5"
+RUN echo "ds5g1s51g5sd"
 
 RUN git clone https://github.com/jingyanwang/temp.git
 
 WORKDIR /temp
 
 CMD python3 app_path.py
-
 ##########Dockerfile###########
