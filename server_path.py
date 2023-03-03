@@ -10,17 +10,24 @@ from flask import *
 
 print('loading model')
 
+from transformers import pipeline, set_seed
 from transformers import AutoModelForCausalLM, AutoTokenizer
-import textwrap, time
 
-MAX_NEW_TOKENS = 300
-model_name = "acul3/bloomz-3b-Instruction"
+set_seed(42)
+
+###
+
+model_id = "facebook/opt-6.7b"
+
+###
 
 model = AutoModelForCausalLM.from_pretrained(
-  model_name,
-)
+	model_id,
+	)
 
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+tokenizer = AutoTokenizer.from_pretrained(
+	model_id,
+	)
 
 ###
 
@@ -28,25 +35,35 @@ def prompt_to_resoonse(
 	prompt,
 	max_length,
 	):
-	input_ids = tokenizer(prompt, return_tensors="pt").input_ids
-	generated_ids = model.generate(
-		input_ids, 
-		max_length=max_length, 
-		pad_token_id=tokenizer.eos_token_id, 
-		do_sample=True, 
-		top_p=0.95, 
-		temperature=0.5, 
-		penalty_alpha=0.6, 
-		top_k=4, 
-		repetition_penalty=1.03, 
-		num_return_sequences=1)
-	result = textwrap.wrap(tokenizer.decode(generated_ids[0], skip_special_tokens=True), width=128)
-	result[0] = result[0].split("Asisten:")[-1]
-	return "\n".join(result)
+	inputs = tokenizer(
+		prompt, 
+		return_tensors="pt",
+		)
+	model_output = model.generate(
+		**inputs,
+		output_scores=True,
+		max_length = max_length,
+		)
+	response = tokenizer.batch_decode(
+		model_output, 
+		skip_special_tokens=True)[0]
+	return response
+
 
 '''
+prompt = u"""
+input: I live in Miami.
+output: Miami
+
+input: I live in Houston.
+output: Houston
+
+input: I live in New York.
+output: 
+"""
+
 prompt_to_resoonse(
-	"My name is Jimmy. Question: what is my name?",
+	prompt,
 	max_length = 128,
 	)
 '''
@@ -65,26 +82,26 @@ ns = Namespace(
 
 ########################################################
 
-parser_bloomz_3b_instruction = ns.parser()
-parser_bloomz_3b_instruction.add_argument('prompt', type=str, location='json')
-parser_bloomz_3b_instruction.add_argument('max_length', type=int, location='json')
+parser_opt_j_6b = ns.parser()
+parser_opt_j_6b.add_argument('prompt', type=str, location='json')
+parser_opt_j_6b.add_argument('max_length', type=int, location='json')
 
-bloomz_3b_instruction_api_req = ns.model(
-	'bloomz_3b_instruction', 
+opt_j_6b_api_req = ns.model(
+	'opt_j_6b', 
 	{
 	'prompt': fields.String(example = "My name is Jimmy. Question: what is my name?"),
 	'max_length': fields.Integer(example = 128),
 	})
 
-@ns.route('/bloomz_3b_instruction')
-class bloomz_3b_instruction_api(Resource):
+@ns.route('/opt_j_6b')
+class opt_j_6b_api(Resource):
 	def __init__(self, *args, **kwargs):
-		super(bloomz_3b_instruction_api, self).__init__(*args, **kwargs)
-	@ns.expect(bloomz_3b_instruction_api_req)
+		super(opt_j_6b_api, self).__init__(*args, **kwargs)
+	@ns.expect(opt_j_6b_api_req)
 	def post(self):		
 		start = time.time()
 		try:			
-			args = parser_bloomz_3b_instruction.parse_args()
+			args = parser_opt_j_6b.parse_args()
 
 			output = {}
 

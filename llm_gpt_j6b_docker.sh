@@ -1,13 +1,16 @@
 docker build \
--m 50G \
+-m 100G \
 --memory-swap -1 \
--t jingyanwang1/llm_service_bloomz_7b1:1.0.1 .
+-t jingyanwang1/llm_service_gpt_j_6b:1.0.1 .
 
 docker run -it \
--p 0.0.0.0:6974:6974 \
-jingyanwang1/llm_service_bloomz_7b1:1.0.1
+-p 0.0.0.0:3391:3391 \
+jingyanwang1/llm_service_gpt_j_6b:1.0.1
 
-157.230.50.43:6974
+
+http://34.66.57.96:3391
+
+http://34.66.57.96:3092
 
 
 rm Dockerfile
@@ -29,19 +32,20 @@ RUN pip3 install transformers==4.26.1
 RUN pip3 install sentencepiece==0.1.97
 RUN pip3 install protobuf==3.20.0
 
-RUN python3 -c 'from transformers import AutoModelForCausalLM;model = AutoModelForCausalLM.from_pretrained("bigscience/bloomz-7b1")'
+RUN python3 -c 'from transformers import AutoModelForCausalLM;model = AutoModelForCausalLM.from_pretrained("EleutherAI/gpt-j-6B")'
 
-RUN python3 -c 'from transformers import AutoTokenizer;tokenizer = AutoTokenizer.from_pretrained("bigscience/bloomz-7b1")'
+RUN python3 -c 'from transformers import AutoTokenizer;tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-j-6B")'
 
 WORKDIR /
 
 ####
 
-RUN echo "sd6g1s5gs5g5s"
+RUN echo "45dg1s5gs5g15s"
 
 RUN git clone https://github.com/jingyanwang/temp.git
 
 WORKDIR /temp
 
 CMD python3 app_path.py
+
 ##########Dockerfile###########
