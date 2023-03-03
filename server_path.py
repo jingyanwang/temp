@@ -15,7 +15,7 @@ from transformers import pipeline, set_seed
 
 set_seed(42)
 
-model_id = "bigscience/bloomz-7b1"
+model_id = "acul3/bloomz-3b-Instruction"
 
 pipe = pipeline(
 	model = model_id, 
@@ -34,67 +34,6 @@ def prompt_to_resoonse(
 	)
 	return response[0]['generated_text']
 
-'''
-
-from transformers import pipeline, set_seed
-from transformers import AutoModelForCausalLM, AutoTokenizer
-
-set_seed(42)
-
-###
-
-model_id = "bigscience/bloomz-7b1"
-
-###
-
-model = AutoModelForCausalLM.from_pretrained(
-	model_id,
-	)
-
-tokenizer = AutoTokenizer.from_pretrained(
-	model_id,
-	)
-
-###
-
-def prompt_to_resoonse(
-	prompt,
-	max_length,
-	):
-	inputs = tokenizer(
-		prompt, 
-		return_tensors="pt",
-		)
-	model_output = model.generate(
-		**inputs,
-		output_scores=True,
-		max_length = max_length,
-		)
-	response = tokenizer.batch_decode(
-		model_output, 
-		skip_special_tokens=True)[0]
-	return response
-
-'''
-
-'''
-prompt = u"""
-input: I live in Miami.
-output: Miami
-
-input: I live in Houston.
-output: Houston
-
-input: I live in New York.
-output: 
-"""
-
-prompt_to_resoonse(
-	prompt,
-	max_length = 128,
-	)
-'''
-
 print('model loaded.')
 
 ########################
@@ -109,26 +48,26 @@ ns = Namespace(
 
 ########################################################
 
-parser_bloomz_7b1 = ns.parser()
-parser_bloomz_7b1.add_argument('prompt', type=str, location='json')
-parser_bloomz_7b1.add_argument('max_length', type=int, location='json')
+parser_bloomz_3b_instruction = ns.parser()
+parser_bloomz_3b_instruction.add_argument('prompt', type=str, location='json')
+parser_bloomz_3b_instruction.add_argument('max_length', type=int, location='json')
 
-bloomz_7b1_api_req = ns.model(
-	'bloomz_7b1', 
+bloomz_3b_instruction_api_req = ns.model(
+	'bloomz_3b_instruction', 
 	{
 	'prompt': fields.String(example = "My name is Jimmy. Question: what is my name?"),
 	'max_length': fields.Integer(example = 128),
 	})
 
-@ns.route('/bloomz_7b1')
-class bloomz_7b1_api(Resource):
+@ns.route('/bloomz_3b_instruction')
+class bloomz_3b_instruction_api(Resource):
 	def __init__(self, *args, **kwargs):
-		super(bloomz_7b1_api, self).__init__(*args, **kwargs)
-	@ns.expect(bloomz_7b1_api_req)
+		super(bloomz_3b_instruction_api, self).__init__(*args, **kwargs)
+	@ns.expect(bloomz_3b_instruction_api_req)
 	def post(self):		
 		start = time.time()
 		try:			
-			args = parser_bloomz_7b1.parse_args()
+			args = parser_bloomz_3b_instruction.parse_args()
 
 			output = {}
 
