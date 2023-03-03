@@ -8,9 +8,7 @@ docker run -it \
 jingyanwang1/llm_service_gpt_j_6b:1.0.1
 
 
-http://34.66.57.96:3391
-
-http://34.66.57.96:3092
+http://206.189.198.28:3391/
 
 
 rm Dockerfile

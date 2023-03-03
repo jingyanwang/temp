@@ -17,7 +17,7 @@ set_seed(42)
 
 ###
 
-model_id = "facebook/opt-6.7b"
+model_id = "EleutherAI/gpt-j-6B"
 
 ###
 
