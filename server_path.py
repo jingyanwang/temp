@@ -10,12 +10,13 @@ from flask import *
 
 print('loading model')
 
+###
 
 from transformers import pipeline, set_seed
 
 set_seed(42)
 
-model_id = "bigscience/bloomz-7b1"
+model_id = "facebook/opt-iml-max-1.3b"
 
 pipe = pipeline(
 	model = model_id, 
@@ -34,48 +35,6 @@ def prompt_to_resoonse(
 	)
 	return response[0]['generated_text']
 
-'''
-
-from transformers import pipeline, set_seed
-from transformers import AutoModelForCausalLM, AutoTokenizer
-
-set_seed(42)
-
-###
-
-model_id = "bigscience/bloomz-7b1"
-
-###
-
-model = AutoModelForCausalLM.from_pretrained(
-	model_id,
-	)
-
-tokenizer = AutoTokenizer.from_pretrained(
-	model_id,
-	)
-
-###
-
-def prompt_to_resoonse(
-	prompt,
-	max_length,
-	):
-	inputs = tokenizer(
-		prompt, 
-		return_tensors="pt",
-		)
-	model_output = model.generate(
-		**inputs,
-		output_scores=True,
-		max_length = max_length,
-		)
-	response = tokenizer.batch_decode(
-		model_output, 
-		skip_special_tokens=True)[0]
-	return response
-
-'''
 
 '''
 prompt = u"""
@@ -109,26 +68,26 @@ ns = Namespace(
 
 ########################################################
 
-parser_bloomz_7b1 = ns.parser()
-parser_bloomz_7b1.add_argument('prompt', type=str, location='json')
-parser_bloomz_7b1.add_argument('max_length', type=int, location='json')
+parser_opt_iml_max_1b = ns.parser()
+parser_opt_iml_max_1b.add_argument('prompt', type=str, location='json')
+parser_opt_iml_max_1b.add_argument('max_length', type=int, location='json')
 
-bloomz_7b1_api_req = ns.model(
-	'bloomz_7b1', 
+opt_iml_max_1b_api_req = ns.model(
+	'opt_iml_max_1b', 
 	{
-	'prompt': fields.String(example = "My name is Jimmy. Question: what is my name?"),
-	'max_length': fields.Integer(example = 128),
+	'prompt': fields.String(example = "My name is Jimmy"),
+	'max_length': fields.Integer(example = 32),
 	})
 
-@ns.route('/bloomz_7b1')
-class bloomz_7b1_api(Resource):
+@ns.route('/opt_iml_max_1b')
+class opt_iml_max_1b_api(Resource):
 	def __init__(self, *args, **kwargs):
-		super(bloomz_7b1_api, self).__init__(*args, **kwargs)
-	@ns.expect(bloomz_7b1_api_req)
+		super(opt_iml_max_1b_api, self).__init__(*args, **kwargs)
+	@ns.expect(opt_iml_max_1b_api_req)
 	def post(self):		
 		start = time.time()
 		try:			
-			args = parser_bloomz_7b1.parse_args()
+			args = parser_opt_iml_max_1b.parse_args()
 
 			output = {}
 
