@@ -10,16 +10,17 @@ from flask import *
 
 print('loading model')
 
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import textwrap, time
 
-from transformers import pipeline, set_seed
+MAX_NEW_TOKENS = 300
+model_name = "acul3/bloomz-3b-Instruction"
 
-set_seed(42)
+model = AutoModelForCausalLM.from_pretrained(
+  model_name,
+)
 
-model_id = "acul3/bloomz-3b-Instruction"
-
-pipe = pipeline(
-	model = model_id, 
-	)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 ###
 
@@ -27,12 +28,28 @@ def prompt_to_resoonse(
 	prompt,
 	max_length,
 	):
-	response = pipe(
-		prompt,
-		return_full_text = False,
-		max_length = max_length,
+	input_ids = tokenizer(prompt, return_tensors="pt").input_ids
+	generated_ids = model.generate(
+		input_ids, 
+		max_length=max_length, 
+		pad_token_id=tokenizer.eos_token_id, 
+		do_sample=True, 
+		top_p=0.95, 
+		temperature=0.5, 
+		penalty_alpha=0.6, 
+		top_k=4, 
+		repetition_penalty=1.03, 
+		num_return_sequences=1)
+	result = textwrap.wrap(tokenizer.decode(generated_ids[0], skip_special_tokens=True), width=128)
+	result[0] = result[0].split("Asisten:")[-1]
+	return "\n".join(result)
+
+'''
+prompt_to_resoonse(
+	"My name is Jimmy. Question: what is my name?",
+	max_length = 128,
 	)
-	return response[0]['generated_text']
+'''
 
 print('model loaded.')
 

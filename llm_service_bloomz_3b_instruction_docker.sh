@@ -5,7 +5,8 @@ docker build \
 
 docker run -it \
 -p 0.0.0.0:3974:3974 \
-jingyanwang1/llm_service_bloomz_3b_instruction:1.0.1
+jingyanwang1/llm_service_bloomz_3b_instruction:1.0.1 \
+bash
 
 157.230.50.43:3974
 
@@ -33,11 +34,13 @@ RUN python3 -c 'from transformers import AutoModelForCausalLM;model = AutoModelF
 
 RUN python3 -c 'from transformers import AutoTokenizer;tokenizer = AutoTokenizer.from_pretrained("acul3/bloomz-3b-Instruction")'
 
+RUN pip3 install accelerate==0.16.0
+
 WORKDIR /
 
 ####
 
-RUN echo "sd6g1s5gs5g5s"
+RUN echo "dgs1g2s1g2sdg"
 
 RUN git clone https://github.com/jingyanwang/temp.git
 
