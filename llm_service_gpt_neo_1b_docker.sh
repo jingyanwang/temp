@@ -1,16 +1,13 @@
 docker build \
 -m 100G \
 --memory-swap -1 \
--t jingyanwang1/llm_service_opt_iml_max_1b:1.0.1 .
+-t jingyanwang1/llm_service_gpt_neo_1b:1.0.1 .
 
 docker run -it \
--p 0.0.0.0:3979:3979 \
-jingyanwang1/llm_service_opt_iml_max_1b:1.0.1
+-p 0.0.0.0:3131:3131 \
+jingyanwang1/llm_service_gpt_neo_1b:1.0.1
 
-
-157.230.50.43:3979
-
-http://34.66.57.96:3092
+157.230.50.43:3131
 
 
 rm Dockerfile
@@ -32,20 +29,22 @@ RUN pip3 install transformers==4.26.1
 RUN pip3 install sentencepiece==0.1.97
 RUN pip3 install protobuf==3.20.0
 
-RUN python3 -c 'from transformers import AutoModelForCausalLM;model = AutoModelForCausalLM.from_pretrained("facebook/opt-iml-max-1.3b")'
+RUN pip3 install accelerate==0.16.0
 
-RUN python3 -c 'from transformers import AutoTokenizer;tokenizer = AutoTokenizer.from_pretrained("facebook/opt-iml-max-1.3b")'
+RUN python3 -c 'from transformers import AutoModelForCausalLM;model = AutoModelForCausalLM.from_pretrained("EleutherAI/gpt-neo-1.3B")'
+
+RUN python3 -c 'from transformers import AutoTokenizer;tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neo-1.3B")'
+
 
 WORKDIR /
 
 ####
 
-RUN echo "1s1gsd1g5sd1g5s"
+RUN echo "sdg1s51gs5g15s"
 
 RUN git clone https://github.com/jingyanwang/temp.git
 
 WORKDIR /temp
 
 CMD python3 app_path.py
-
 ##########Dockerfile###########

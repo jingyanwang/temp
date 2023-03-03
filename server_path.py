@@ -9,14 +9,11 @@ from flask import *
 ########################
 
 print('loading model')
-
-###
-
 from transformers import pipeline, set_seed
 
 set_seed(42)
 
-model_id = "facebook/opt-iml-max-1.3b"
+model_id = "EleutherAI/gpt-neo-1.3B"
 
 pipe = pipeline(
 	model = model_id, 
@@ -35,21 +32,9 @@ def prompt_to_resoonse(
 	)
 	return response[0]['generated_text']
 
-
 '''
-prompt = u"""
-input: I live in Miami.
-output: Miami
-
-input: I live in Houston.
-output: Houston
-
-input: I live in New York.
-output: 
-"""
-
 prompt_to_resoonse(
-	prompt,
+	"My name is Jimmy. Question: what is my name?",
 	max_length = 128,
 	)
 '''
@@ -68,26 +53,26 @@ ns = Namespace(
 
 ########################################################
 
-parser_opt_iml_max_1b = ns.parser()
-parser_opt_iml_max_1b.add_argument('prompt', type=str, location='json')
-parser_opt_iml_max_1b.add_argument('max_length', type=int, location='json')
+parser_gpt_neo_1b = ns.parser()
+parser_gpt_neo_1b.add_argument('prompt', type=str, location='json')
+parser_gpt_neo_1b.add_argument('max_length', type=int, location='json')
 
-opt_iml_max_1b_api_req = ns.model(
-	'opt_iml_max_1b', 
+gpt_neo_1b_api_req = ns.model(
+	'gpt_neo_1b', 
 	{
-	'prompt': fields.String(example = "My name is Jimmy"),
-	'max_length': fields.Integer(example = 32),
+	'prompt': fields.String(example = "My name is Jimmy. Question: what is my name?"),
+	'max_length': fields.Integer(example = 128),
 	})
 
-@ns.route('/opt_iml_max_1b')
-class opt_iml_max_1b_api(Resource):
+@ns.route('/gpt_neo_1b')
+class gpt_neo_1b_api(Resource):
 	def __init__(self, *args, **kwargs):
-		super(opt_iml_max_1b_api, self).__init__(*args, **kwargs)
-	@ns.expect(opt_iml_max_1b_api_req)
+		super(gpt_neo_1b_api, self).__init__(*args, **kwargs)
+	@ns.expect(gpt_neo_1b_api_req)
 	def post(self):		
 		start = time.time()
 		try:			
-			args = parser_opt_iml_max_1b.parse_args()
+			args = parser_gpt_neo_1b.parse_args()
 
 			output = {}
 
